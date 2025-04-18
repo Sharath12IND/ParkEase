@@ -83,17 +83,19 @@ export default function Sidebar({ activeItem, isVendor = false }: SidebarProps) 
       
       <nav className="space-y-1">
         {navItems.map((item) => (
-          <Link key={item.name} href={item.path}>
-            <a className={cn(
-              "flex items-center space-x-3 rounded-lg p-3 mb-1 transition-colors",
-              activeItem === item.name 
-                ? "bg-primary-800 text-white" 
-                : "text-primary-100 hover:bg-primary-800"
-            )}>
-              {item.icon}
-              <span>{item.name}</span>
-            </a>
-          </Link>
+          <div key={item.name}>
+            <Link href={item.path}>
+              <div className={cn(
+                "flex items-center space-x-3 rounded-lg p-3 mb-1 transition-colors cursor-pointer",
+                activeItem === item.name 
+                  ? "bg-primary-800 text-white" 
+                  : "text-primary-100 hover:bg-primary-800"
+              )}>
+                {item.icon}
+                <span>{item.name}</span>
+              </div>
+            </Link>
+          </div>
         ))}
       </nav>
       

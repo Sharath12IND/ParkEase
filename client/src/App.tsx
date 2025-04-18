@@ -10,6 +10,7 @@ import SearchPage from "@/pages/search-page";
 import LocationDetailPage from "@/pages/location-detail-page";
 import UserDashboardPage from "@/pages/user-dashboard-page";
 import VendorDashboardPage from "@/pages/vendor-dashboard-page";
+import AccountSettingsPage from "@/pages/account-settings-page";
 import HelpPage from "@/pages/help-page";
 import BusinessPage from "@/pages/business-page";
 import { ProtectedRoute } from "./lib/protected-route";
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/help" component={HelpPage} />
       <Route path="/business" component={BusinessPage} />
       <ProtectedRoute path="/dashboard" component={UserDashboardPage} />
+      <ProtectedRoute path="/dashboard/settings" component={AccountSettingsPage} />
       <ProtectedRoute path="/vendor/dashboard" component={VendorDashboardPage} />
       <Route component={NotFound} />
     </Switch>
