@@ -11,7 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LocationDetailPage() {
   const { id } = useParams();
-  const facilityId = parseInt(id);
+  const facilityId = parseInt(id || "0");
   const [selectedSlot, setSelectedSlot] = useState<ParkingSlot | null>(null);
   
   // Fetch facility details

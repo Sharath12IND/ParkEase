@@ -92,7 +92,7 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
       return;
     }
     
-    if (!selectedVehicleId) {
+    if (!selectedVehicleId || selectedVehicleId === "add_new") {
       toast({
         title: "No Vehicle Selected",
         description: "Please select or add a vehicle for your booking.",
@@ -100,13 +100,34 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
       });
       return;
     }
+
+    // Let's first check if we need to add a vehicle
+    if (selectedVehicleId === "add_new") {
+      toast({
+        title: "Add Vehicle First",
+        description: "Please add a vehicle from your profile before booking.",
+      });
+      return;
+    }
+    
+    // For debugging
+    console.log("Booking data:", {
+      facilityId: facility.id,
+      slotId: selectedSlot.id,
+      vehicleId: parseInt(selectedVehicleId),
+      startTime: startTime,
+      endTime: endTime,
+      totalAmount: totalPrice,
+      status: "confirmed",
+      paymentStatus: "paid",
+    });
     
     bookingMutation.mutate({
       facilityId: facility.id,
       slotId: selectedSlot.id,
       vehicleId: parseInt(selectedVehicleId),
-      startTime: startTime.toISOString(),
-      endTime: endTime.toISOString(),
+      startTime: startTime,
+      endTime: endTime,
       totalAmount: totalPrice,
       status: "confirmed",
       paymentStatus: "paid",
