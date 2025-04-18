@@ -77,25 +77,25 @@ export default function ParkingMap({ facilityId, onSelectSlot, selectedSlotId }:
 
   return (
     <div className="mb-8">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-gray-800 dark:text-white">Parking Map</h3>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <h3 className="text-2xl font-bold text-black">Select Your Parking Spot</h3>
         
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center gap-3">
           <Tabs 
             value={viewMode} 
             onValueChange={(v) => setViewMode(v as "grid" | "visual")}
-            className="border border-gray-200 dark:border-gray-700 rounded-md"
+            className="border-2 border-primary/20 rounded-lg shadow-sm"
           >
-            <TabsList className="bg-gray-100 dark:bg-gray-800 p-0.5">
+            <TabsList className="bg-white p-1">
               <TabsTrigger 
                 value="visual" 
-                className="px-2 py-1 text-xs"
+                className="px-4 py-2 text-sm font-bold data-[state=active]:bg-primary data-[state=active]:text-white"
               >
                 Visual
               </TabsTrigger>
               <TabsTrigger 
                 value="grid" 
-                className="px-2 py-1 text-xs"
+                className="px-4 py-2 text-sm font-bold data-[state=active]:bg-primary data-[state=active]:text-white"
               >
                 Grid
               </TabsTrigger>
@@ -106,7 +106,7 @@ export default function ParkingMap({ facilityId, onSelectSlot, selectedSlotId }:
             value={selectedLevel}
             onValueChange={setSelectedLevel}
           >
-            <SelectTrigger className="text-sm py-1 px-3 h-8 w-32 border-gray-200 dark:border-gray-700 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+            <SelectTrigger className="text-base py-2 px-4 h-10 w-36 border-2 border-primary/20 rounded-lg bg-white text-black font-medium shadow-sm">
               <SelectValue placeholder="Select level" />
             </SelectTrigger>
             <SelectContent>
@@ -119,54 +119,59 @@ export default function ParkingMap({ facilityId, onSelectSlot, selectedSlotId }:
       </div>
       
       {/* Legend */}
-      <div className="flex flex-wrap items-center text-sm gap-4 mb-4 bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700">
-        <span className="font-medium text-gray-600 dark:text-gray-300">Legend:</span>
-        <span className="flex items-center">
-          <span className="inline-block w-3 h-3 bg-green-600 rounded-full mr-1"></span>
-          <span className="text-gray-700 dark:text-gray-300">Available</span>
+      <div className="flex flex-wrap items-center text-base gap-6 mb-4 bg-white p-4 rounded-xl shadow-md border border-primary/10">
+        <span className="font-semibold text-black">Map Legend:</span>
+        <span className="flex items-center bg-green-50 px-3 py-1 rounded-full">
+          <span className="inline-block w-4 h-4 bg-green-500 rounded-full mr-2"></span>
+          <span className="text-black font-medium">Available</span>
         </span>
-        <span className="flex items-center">
-          <span className="inline-block w-3 h-3 bg-red-600 rounded-full mr-1"></span>
-          <span className="text-gray-700 dark:text-gray-300">Occupied</span>
+        <span className="flex items-center bg-red-50 px-3 py-1 rounded-full">
+          <span className="inline-block w-4 h-4 bg-red-500 rounded-full mr-2"></span>
+          <span className="text-black font-medium">Occupied</span>
         </span>
-        <span className="flex items-center">
-          <span className="inline-block w-3 h-3 bg-blue-600 rounded-full mr-1"></span>
-          <span className="text-gray-700 dark:text-gray-300">Selected</span>
+        <span className="flex items-center bg-blue-50 px-3 py-1 rounded-full">
+          <span className="inline-block w-4 h-4 bg-blue-500 rounded-full mr-2"></span>
+          <span className="text-black font-medium">Selected</span>
         </span>
       </div>
       
       {isLoading ? (
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <Skeleton className="h-48 w-full rounded-md" />
-          <div className="flex justify-between mt-4">
-            <Skeleton className="h-6 w-32" />
-            <Skeleton className="h-6 w-32" />
+        <div className="bg-white rounded-xl shadow-md border-2 border-gray-100 p-8">
+          <div className="flex flex-col gap-6">
+            <Skeleton className="h-64 w-full rounded-xl" />
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <Skeleton className="h-6 w-40" />
+              </div>
+              <Skeleton className="h-10 w-32 rounded-lg" />
+            </div>
           </div>
         </div>
       ) : (
-        <div className="parking-map rounded-lg overflow-hidden">
+        <div className="parking-map rounded-xl overflow-hidden shadow-lg">
           {viewMode === "visual" ? (
-            <div className="relative border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="relative border-2 border-primary/10 rounded-xl bg-white">
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img 
-                  src={PARKING_IMAGES[selectedLevel as keyof typeof PARKING_IMAGES] || PARKING_IMAGES["1"]} 
+                  src="https://images.unsplash.com/photo-1621928372414-30e144d111a0?auto=format&fit=crop&w=1400&q=80" 
                   alt={`Parking level ${selectedLevel}`}
                   className="w-full h-full object-cover"
                 />
                 
                 {/* Overlay text */}
-                <div className="absolute top-4 left-4 bg-white/80 dark:bg-black/70 p-2 rounded-md text-sm font-medium text-gray-800 dark:text-white">
+                <div className="absolute top-4 left-4 bg-white/90 p-3 rounded-lg text-base font-bold text-black shadow-lg">
                   Level {selectedLevel} - Mall Entrance
                 </div>
                 
                 {/* Direction indicators */}
-                <div className="absolute bottom-4 right-4 bg-white/80 dark:bg-black/70 p-2 rounded-md flex items-center text-sm font-medium text-gray-800 dark:text-white">
-                  <ArrowDown className="h-4 w-4 mr-1 rotate-180" />
+                <div className="absolute bottom-4 right-4 bg-primary/90 p-3 rounded-lg flex items-center text-base font-bold text-white shadow-lg">
+                  <ArrowDown className="h-5 w-5 mr-2 rotate-180" />
                   <span>Entry</span>
                 </div>
                 
                 {/* Overlay slots */}
-                <div className="absolute inset-0 grid grid-cols-5 sm:grid-cols-8 gap-2 p-8">
+                <div className="absolute inset-0 grid grid-cols-5 sm:grid-cols-8 gap-3 p-10">
                   {slotsForLevel.map((slot) => (
                     <div 
                       key={slot.id}
@@ -177,14 +182,14 @@ export default function ParkingMap({ facilityId, onSelectSlot, selectedSlotId }:
                       }}
                     >
                       <div 
-                        className={`absolute inset-0 ${getSlotOpacity(slot)} rounded-md flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity`}
+                        className={`absolute inset-0 ${getSlotOpacity(slot)} rounded-lg flex items-center justify-center cursor-pointer hover:opacity-90 transition-all border-2 border-white/30 shadow-md hover:shadow-lg transform hover:scale-105`}
                         onClick={() => handleSlotClick(slot)}
                       >
                         <div className="text-white font-bold flex flex-col items-center">
-                          <Car className="h-5 w-5 mb-1" />
-                          <span>{slot.slotNumber}</span>
+                          <Car className="h-6 w-6 mb-1" />
+                          <span className="text-base">{slot.slotNumber}</span>
                           {slot.id === selectedSlotId && (
-                            <CheckCircle className="h-4 w-4 mt-1 animate-pulse" />
+                            <CheckCircle className="h-5 w-5 mt-1 animate-pulse text-white" />
                           )}
                         </div>
                       </div>
@@ -195,22 +200,22 @@ export default function ParkingMap({ facilityId, onSelectSlot, selectedSlotId }:
               
               {/* Selected slot information */}
               {selectedSlotId && (
-                <div className="bg-blue-50 dark:bg-blue-900/30 p-3 border-t border-blue-200 dark:border-blue-800 flex justify-between items-center">
+                <div className="bg-primary/10 p-4 border-t-2 border-primary/20 flex justify-between items-center">
                   <div className="flex items-center">
-                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-md">
                       {slotsForLevel.find(s => s.id === selectedSlotId)?.slotNumber || 'A1'}
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-blue-800 dark:text-blue-200">Slot Selected</div>
-                      <div className="text-xs text-blue-600 dark:text-blue-300">
-                        Type: {slotsForLevel.find(s => s.id === selectedSlotId)?.slotType || 'Standard'}
+                      <div className="text-base font-bold text-black">Spot Selected</div>
+                      <div className="text-sm text-black">
+                        Type: <span className="font-semibold">{slotsForLevel.find(s => s.id === selectedSlotId)?.slotType || 'Standard'}</span>
                       </div>
                     </div>
                   </div>
                   <Button 
                     size="sm"
                     variant="outline"
-                    className="border-blue-300 hover:bg-blue-100 dark:border-blue-700 dark:hover:bg-blue-900 text-blue-800 dark:text-blue-200"
+                    className="border-2 border-primary/40 hover:bg-primary/10 text-primary font-semibold"
                     onClick={() => setViewMode("grid")}
                   >
                     View as Grid
@@ -219,24 +224,26 @@ export default function ParkingMap({ facilityId, onSelectSlot, selectedSlotId }:
               )}
             </div>
           ) : (
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-              <div className="grid grid-cols-5 sm:grid-cols-10 gap-2 overflow-auto">
+            <div className="bg-white border-2 border-primary/10 rounded-xl p-6 shadow-md">
+              <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-10 gap-3 overflow-auto">
                 {slotsForLevel.map((slot) => (
                   <div
                     key={slot.id}
-                    className={`slot ${getSlotColor(slot)} h-14 rounded-md flex flex-col items-center justify-center text-white font-medium cursor-pointer border ${
-                      slot.status === "available" ? "hover:opacity-90" : "cursor-not-allowed opacity-80"
-                    } ${slot.id === selectedSlotId ? 'ring-2 ring-white' : ''}`}
+                    className={`slot ${getSlotColor(slot)} h-16 rounded-lg flex flex-col items-center justify-center text-white font-bold cursor-pointer border-2 border-white/30 shadow-md ${
+                      slot.status === "available" ? "hover:opacity-90 hover:scale-105 transform transition-all" : "cursor-not-allowed opacity-80"
+                    } ${slot.id === selectedSlotId ? 'ring-4 ring-white' : ''}`}
                     onClick={() => slot.status === "available" && handleSlotClick(slot)}
                   >
-                    <Car className="h-4 w-4 mb-1" />
-                    {slot.slotNumber}
+                    <Car className="h-5 w-5 mb-1" />
+                    <span className="text-base">{slot.slotNumber}</span>
                   </div>
                 ))}
                 
                 {slotsForLevel.length === 0 && (
-                  <div className="col-span-10 p-10 text-center text-gray-500 dark:text-gray-400">
-                    No parking slots available for this level.
+                  <div className="col-span-10 p-10 text-center bg-gray-50 rounded-lg">
+                    <Car className="h-10 w-10 text-gray-300 mx-auto mb-3" />
+                    <h4 className="text-lg font-bold text-gray-700">No Parking Spots</h4>
+                    <p className="text-gray-500">No slots available for this level</p>
                   </div>
                 )}
               </div>

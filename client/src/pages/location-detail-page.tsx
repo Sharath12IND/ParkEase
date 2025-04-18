@@ -45,18 +45,18 @@ export default function LocationDetailPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
       
-      <main className="flex-grow py-16 bg-white">
+      <main className="flex-grow py-12 md:py-16">
         <div className="container mx-auto px-4">
           {isLoadingFacility ? (
             <LoadingState />
           ) : error || !facility ? (
             <ErrorState />
           ) : (
-            <div className="max-w-6xl mx-auto">
-              <div className="flex flex-col md:flex-row gap-8">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex flex-col md:flex-row gap-10">
                 {/* Left Side - Details */}
                 <div className="w-full md:w-7/12">
                   <LocationDetails facility={facility} />
