@@ -11,7 +11,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format, addHours } from "date-fns";
 import { Slider } from "@/components/ui/slider";
-import { ParkingFacility, ParkingSlot, Vehicle } from "@shared/schema";
+import { Input } from "@/components/ui/input";
+import { ParkingFacility, ParkingSlot, Vehicle, InsertVehicle } from "@shared/schema";
 import { toast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useLocation } from "wouter";
@@ -30,6 +31,18 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
   const [hours, setHours] = useState(3);
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>("");
   const [vehicleType, setVehicleType] = useState<string>("sedan");
+  const [showAddVehicle, setShowAddVehicle] = useState<boolean>(true);
+  const [newVehicle, setNewVehicle] = useState<{
+    licensePlate?: string;
+    make?: string;
+    model?: string;
+    vehicleType?: string;
+  }>({
+    licensePlate: "",
+    make: "",
+    model: "",
+    vehicleType: "sedan"
+  });
   
   // Get user vehicles
   const { data: vehicles, isLoading: isLoadingVehicles } = useQuery<Vehicle[]>({
@@ -46,6 +59,51 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
   const evFee = selectedSlot?.slotType === "ev" ? 5 : 0;
   const serviceFee = 2.5;
   const totalPrice = basePrice + evFee + serviceFee;
+  
+  // Create vehicle mutation
+  const vehicleMutation = useMutation({
+    mutationFn: async (vehicleData: InsertVehicle) => {
+      const res = await apiRequest("POST", "/api/vehicles", vehicleData);
+      return await res.json();
+    },
+    onSuccess: (newVehicle: Vehicle) => {
+      toast({
+        title: "Vehicle Added!",
+        description: "Your vehicle has been successfully added.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/vehicles"] });
+      setShowAddVehicle(false);
+      setSelectedVehicleId(newVehicle.id.toString());
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to Add Vehicle",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Handle adding a new vehicle
+  const handleAddVehicle = () => {
+    if (!newVehicle.licensePlate || !newVehicle.make || !newVehicle.model) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all vehicle details.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    vehicleMutation.mutate({
+      userId: user!.id,
+      licensePlate: newVehicle.licensePlate,
+      make: newVehicle.make,
+      model: newVehicle.model,
+      vehicleType: vehicleType,
+      isDefault: vehicles && vehicles.length === 0,
+    });
+  };
   
   // Create booking mutation
   const bookingMutation = useMutation({
@@ -92,46 +150,29 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
       return;
     }
     
-    if (!selectedVehicleId || selectedVehicleId === "add_new") {
+    if (!selectedVehicleId) {
       toast({
         title: "No Vehicle Selected",
-        description: "Please select or add a vehicle for your booking.",
+        description: "Please create and select a vehicle for your booking.",
         variant: "destructive",
       });
       return;
     }
-
-    // Let's first check if we need to add a vehicle
-    if (selectedVehicleId === "add_new") {
-      toast({
-        title: "Add Vehicle First",
-        description: "Please add a vehicle from your profile before booking.",
-      });
-      return;
-    }
     
-    // For debugging
-    console.log("Booking data:", {
+    // Convert dates to ISO strings
+    const bookingData = {
       facilityId: facility.id,
       slotId: selectedSlot.id,
       vehicleId: parseInt(selectedVehicleId),
-      startTime: startTime,
-      endTime: endTime,
+      startTime: startTime.toISOString(),
+      endTime: endTime.toISOString(),
       totalAmount: totalPrice,
       status: "confirmed",
       paymentStatus: "paid",
-    });
+    };
     
-    bookingMutation.mutate({
-      facilityId: facility.id,
-      slotId: selectedSlot.id,
-      vehicleId: parseInt(selectedVehicleId),
-      startTime: startTime,
-      endTime: endTime,
-      totalAmount: totalPrice,
-      status: "confirmed",
-      paymentStatus: "paid",
-    });
+    console.log("Submitting booking data:", bookingData);
+    bookingMutation.mutate(bookingData);
   };
   
   if (!user) {
@@ -260,29 +301,53 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
         
         {/* Vehicle Selection */}
         <div className="mb-6">
-          <label className="block text-neutral-700 font-medium mb-2">Your Vehicles</label>
-          {isLoadingVehicles ? (
-            <div className="flex justify-center p-4">
-              <Loader2 className="animate-spin h-6 w-6 text-primary" />
-            </div>
-          ) : (
-            <Select
-              value={selectedVehicleId}
-              onValueChange={setSelectedVehicleId}
-            >
-              <SelectTrigger className="border-2 border-neutral-200 bg-white text-neutral-800">
-                <SelectValue placeholder="Select your registered vehicle" />
-              </SelectTrigger>
-              <SelectContent>
-                {vehicles?.map((vehicle) => (
-                  <SelectItem key={vehicle.id} value={vehicle.id.toString()}>
-                    {vehicle.make} {vehicle.model} ({vehicle.licensePlate})
-                  </SelectItem>
-                ))}
-                <SelectItem value="add_new">+ Add New Vehicle</SelectItem>
-              </SelectContent>
-            </Select>
-          )}
+          <label className="block text-neutral-700 font-medium mb-2">Sample Vehicle ID (fixed for testing)</label>
+          <Button
+            className="w-full bg-green-600 hover:bg-green-700 text-white"
+            onClick={() => {
+              // Create and use a fixed vehicle ID
+              vehicleMutation.mutate({
+                userId: user!.id,
+                licensePlate: "TEST-123",
+                make: "Toyota",
+                model: "Camry",
+                vehicleType: "sedan",
+                isDefault: true,
+              });
+            }}
+          >
+            Create Test Vehicle
+          </Button>
+          
+          <div className="mt-4">
+            {vehicles && vehicles.length > 0 ? (
+              <div className="bg-green-50 p-4 rounded-lg border-2 border-green-200">
+                <p className="text-green-800 mb-2 font-semibold">Your Vehicles:</p>
+                <ul className="list-disc pl-5">
+                  {vehicles.map(v => (
+                    <li key={v.id} className="text-green-700">
+                      {v.make} {v.model} ({v.licensePlate}) - ID: {v.id}
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        className="ml-2 h-6 px-2 py-0 text-xs"
+                        onClick={() => setSelectedVehicleId(v.id.toString())}
+                      >
+                        Select
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-2 text-sm text-green-800">
+                  Selected Vehicle ID: <strong>{selectedVehicleId || "None"}</strong>
+                </p>
+              </div>
+            ) : (
+              <div className="bg-amber-50 p-4 rounded-lg text-amber-800">
+                No vehicles found. Click the button above to create a test vehicle.
+              </div>
+            )}
+          </div>
         </div>
         
         {/* Selected Spot */}
