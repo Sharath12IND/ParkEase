@@ -90,19 +90,19 @@ export default function SearchPage() {
     <div className="flex flex-col min-h-screen">
       <Header />
       
-      <main className="flex-grow bg-neutral-50 py-8">
+      <main className="flex-grow bg-background py-8">
         <div className="container mx-auto px-4">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold font-poppins text-primary-900 mb-2">Find Parking</h1>
-            <p className="text-neutral-600">Discover and book premium parking spots at top locations</p>
+            <h1 className="text-4xl font-bold text-white mb-2">Find Parking</h1>
+            <p className="text-gray-300">Discover and book premium parking spots at top locations</p>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Filters sidebar */}
             <div className="lg:col-span-1">
-              <Card>
+              <Card className="bg-background border border-gray-800">
                 <CardContent className="p-6">
-                  <h2 className="text-lg font-semibold mb-4">Search & Filters</h2>
+                  <h2 className="text-lg font-semibold mb-4 text-white">Search & Filters</h2>
                   
                   <form onSubmit={handleSearch} className="space-y-6">
                     <div className="space-y-3">
@@ -278,14 +278,14 @@ export default function SearchPage() {
               ) : filteredFacilities && filteredFacilities.length > 0 ? (
                 <>
                   <div className="flex justify-between items-center mb-6">
-                    <p className="text-neutral-600">
+                    <p className="text-gray-300">
                       Showing {filteredFacilities.length} {filteredFacilities.length === 1 ? 'result' : 'results'}
                     </p>
                     <Select defaultValue="price_asc">
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-[180px] border-gray-700 bg-background text-white">
                         <SelectValue placeholder="Sort by" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-background border-gray-700 text-white">
                         <SelectItem value="price_asc">Price: Low to High</SelectItem>
                         <SelectItem value="price_desc">Price: High to Low</SelectItem>
                         <SelectItem value="rating_desc">Highest Rated</SelectItem>
