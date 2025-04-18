@@ -57,11 +57,11 @@ export default function Header() {
           <Link href="/#how-it-works" className="text-gray-300 hover:text-white transition-all font-medium flex items-center gap-1.5">
             <span>How It Works</span>
           </Link>
-          <Link href="/#business" className="text-gray-300 hover:text-white transition-all font-medium flex items-center gap-1.5">
+          <Link href="/business" className={`${location === '/business' ? 'neon-text' : 'text-gray-300 hover:text-white'} transition-all font-medium flex items-center gap-1.5`}>
             <Building className="w-4 h-4" />
             <span>For Business</span>
           </Link>
-          <Link href="#" className="text-gray-300 hover:text-white transition-all font-medium flex items-center gap-1.5">
+          <Link href="/help" className={`${location === '/help' ? 'neon-text' : 'text-gray-300 hover:text-white'} transition-all font-medium flex items-center gap-1.5`}>
             <HelpCircle className="w-4 h-4" />
             <span>Help</span>
           </Link>
@@ -146,11 +146,11 @@ export default function Header() {
                 <Link href="/#how-it-works" className="text-lg font-medium flex items-center gap-2 text-gray-300" onClick={() => setIsMobileMenuOpen(false)}>
                   How It Works
                 </Link>
-                <Link href="/#business" className="text-lg font-medium flex items-center gap-2 text-gray-300" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link href="/business" className="text-lg font-medium flex items-center gap-2 text-gray-300" onClick={() => setIsMobileMenuOpen(false)}>
                   <Building className="w-5 h-5 text-primary" />
                   For Business
                 </Link>
-                <Link href="#" className="text-lg font-medium flex items-center gap-2 text-gray-300" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link href="/help" className="text-lg font-medium flex items-center gap-2 text-gray-300" onClick={() => setIsMobileMenuOpen(false)}>
                   <HelpCircle className="w-5 h-5 text-primary" />
                   Help
                 </Link>

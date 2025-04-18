@@ -13,29 +13,29 @@
     --popover: 240 10% 10%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 263 85% 50%;
+    --primary: 263 85% 60%; /* Adjusted for better contrast */
     --primary-foreground: 0 0% 98%;
 
     --secondary: 240 10% 10%;
     --secondary-foreground: 0 0% 95%;
 
     --muted: 240 10% 15%;
-    --muted-foreground: 240 10% 65%;
+    --muted-foreground: 240 10% 85%; /* Increased brightness for better readability */
 
-    --accent: 334 85% 52%;
+    --accent: 334 85% 62%; /* Adjusted for better contrast */
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 80% 50%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 10% 15%;
+    --border: 240 10% 20%; /* Increased brightness for better visibility */
     --input: 240 10% 15%;
-    --ring: 263 85% 50%;
+    --ring: 263 85% 60%;
 
     --radius: 0.5rem;
     
-    --primary-rgb: 140, 36, 237;
-    --accent-rgb: 224, 22, 91;
+    --primary-rgb: 151, 55, 240; /* Adjusted to match new primary */
+    --accent-rgb: 231, 50, 112; /* Adjusted to match new accent */
   }
 }
 
@@ -85,15 +85,17 @@
 /* Custom Components */
 .neon-text {
   color: hsl(var(--primary));
-  text-shadow: 0 0 5px rgba(var(--primary-rgb), 0.3), 
-               0 0 10px rgba(var(--primary-rgb), 0.3), 
-               0 0 15px rgba(var(--primary-rgb), 0.3);
+  text-shadow: 0 0 5px rgba(var(--primary-rgb), 0.5), 
+               0 0 10px rgba(var(--primary-rgb), 0.5), 
+               0 0 15px rgba(var(--primary-rgb), 0.5);
+  font-weight: 600; /* Adding font weight for better visibility */
 }
 
 .accent-text {
   color: hsl(var(--accent));
-  text-shadow: 0 0 5px rgba(var(--accent-rgb), 0.3), 
-               0 0 10px rgba(var(--accent-rgb), 0.3);
+  text-shadow: 0 0 5px rgba(var(--accent-rgb), 0.5), 
+               0 0 10px rgba(var(--accent-rgb), 0.5);
+  font-weight: 600; /* Adding font weight for better visibility */
 }
 
 .neon-border {

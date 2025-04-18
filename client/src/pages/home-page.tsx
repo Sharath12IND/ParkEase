@@ -207,7 +207,7 @@ export default function HomePage() {
             </div>
             
             <div className="text-center mt-12">
-              <Link href="/auth?tab=register&type=vendor">
+              <Link href="/business">
                 <Button className="bg-primary text-white hover:bg-primary/90 transition-all">
                   Learn More About ParkEase for Business
                   <ArrowRight className="ml-2 h-4 w-4" />

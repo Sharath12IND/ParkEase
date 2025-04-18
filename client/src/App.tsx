@@ -10,6 +10,8 @@ import SearchPage from "@/pages/search-page";
 import LocationDetailPage from "@/pages/location-detail-page";
 import UserDashboardPage from "@/pages/user-dashboard-page";
 import VendorDashboardPage from "@/pages/vendor-dashboard-page";
+import HelpPage from "@/pages/help-page";
+import BusinessPage from "@/pages/business-page";
 import { ProtectedRoute } from "./lib/protected-route";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/hooks/use-auth";
@@ -21,6 +23,8 @@ function Router() {
       <Route path="/auth" component={AuthPage} />
       <Route path="/search" component={SearchPage} />
       <Route path="/location/:id" component={LocationDetailPage} />
+      <Route path="/help" component={HelpPage} />
+      <Route path="/business" component={BusinessPage} />
       <ProtectedRoute path="/dashboard" component={UserDashboardPage} />
       <ProtectedRoute path="/vendor/dashboard" component={VendorDashboardPage} />
       <Route component={NotFound} />
