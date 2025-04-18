@@ -106,12 +106,12 @@ export default function SearchPage() {
                   
                   <form onSubmit={handleSearch} className="space-y-6">
                     <div className="space-y-3">
-                      <label className="text-sm font-medium">Location</label>
+                      <label className="text-sm font-medium text-gray-300">Location</label>
                       <div className="relative">
-                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-500 h-4 w-4" />
+                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                         <Input 
                           placeholder="City, location or venue" 
-                          className="pl-9"
+                          className="pl-9 bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                           value={location}
                           onChange={(e) => setLocation(e.target.value)}
                         />
@@ -119,17 +119,17 @@ export default function SearchPage() {
                     </div>
                     
                     <div className="space-y-3">
-                      <label className="text-sm font-medium">Date</label>
+                      <label className="text-sm font-medium text-gray-300">Date</label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
                             variant="outline"
                             className={cn(
-                              "w-full justify-start text-left font-normal pl-9",
-                              !date && "text-muted-foreground"
+                              "w-full justify-start text-left font-normal pl-9 bg-gray-800 border-gray-700 text-white",
+                              !date && "text-gray-500"
                             )}
                           >
-                            <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-500 h-4 w-4" />
+                            <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                             {date ? format(date, "PPP") : <span>Pick a date</span>}
                           </Button>
                         </PopoverTrigger>
@@ -146,17 +146,17 @@ export default function SearchPage() {
                     </div>
                     
                     <div className="space-y-3">
-                      <label className="text-sm font-medium">Time</label>
+                      <label className="text-sm font-medium text-gray-300">Time</label>
                       <div className="relative">
-                        <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-500 h-4 w-4" />
+                        <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                         <Select
                           value={time}
                           onValueChange={setTime}
                         >
-                          <SelectTrigger className="pl-9">
+                          <SelectTrigger className="pl-9 bg-gray-800 border-gray-700 text-white">
                             <SelectValue placeholder="Select time" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="bg-gray-800 border-gray-700 text-white">
                             {[...Array(24)].map((_, i) => (
                               <SelectItem key={i} value={`${i.toString().padStart(2, '0')}:00`}>
                                 {i.toString().padStart(2, '0')}:00
@@ -169,8 +169,8 @@ export default function SearchPage() {
                     
                     <div className="space-y-3">
                       <div className="flex justify-between">
-                        <label className="text-sm font-medium">Price Range (per hour)</label>
-                        <span className="text-sm text-neutral-500">
+                        <label className="text-sm font-medium text-gray-300">Price Range (per hour)</label>
+                        <span className="text-sm text-gray-400">
                           ${priceRange[0]} - ${priceRange[1]}
                         </span>
                       </div>
@@ -181,19 +181,21 @@ export default function SearchPage() {
                         step={1}
                         value={priceRange}
                         onValueChange={(val) => setPriceRange(val as [number, number])}
+                        className="accent-primary"
                       />
                     </div>
                     
                     <div className="space-y-3">
-                      <label className="text-sm font-medium">Amenities</label>
+                      <label className="text-sm font-medium text-gray-300">Amenities</label>
                       <div className="space-y-2">
                         <div className="flex items-center space-x-2">
                           <Checkbox 
                             id="evCharging" 
                             checked={filters.evCharging} 
                             onCheckedChange={() => handleFilterChange('evCharging')} 
+                            className="border-gray-600 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                           />
-                          <label htmlFor="evCharging" className="text-sm flex items-center cursor-pointer">
+                          <label htmlFor="evCharging" className="text-sm flex items-center cursor-pointer text-gray-300">
                             <Bolt className="h-3 w-3 mr-1" /> EV Charging
                           </label>
                         </div>
@@ -201,9 +203,10 @@ export default function SearchPage() {
                           <Checkbox 
                             id="covered" 
                             checked={filters.covered} 
-                            onCheckedChange={() => handleFilterChange('covered')} 
+                            onCheckedChange={() => handleFilterChange('covered')}
+                            className="border-gray-600 data-[state=checked]:bg-primary data-[state=checked]:border-primary" 
                           />
-                          <label htmlFor="covered" className="text-sm flex items-center cursor-pointer">
+                          <label htmlFor="covered" className="text-sm flex items-center cursor-pointer text-gray-300">
                             <Umbrella className="h-3 w-3 mr-1" /> Covered Parking
                           </label>
                         </div>
@@ -211,9 +214,10 @@ export default function SearchPage() {
                           <Checkbox 
                             id="accessible" 
                             checked={filters.accessible} 
-                            onCheckedChange={() => handleFilterChange('accessible')} 
+                            onCheckedChange={() => handleFilterChange('accessible')}
+                            className="border-gray-600 data-[state=checked]:bg-primary data-[state=checked]:border-primary" 
                           />
-                          <label htmlFor="accessible" className="text-sm flex items-center cursor-pointer">
+                          <label htmlFor="accessible" className="text-sm flex items-center cursor-pointer text-gray-300">
                             <Accessibility className="h-3 w-3 mr-1" /> Accessible Spaces
                           </label>
                         </div>
@@ -221,9 +225,10 @@ export default function SearchPage() {
                           <Checkbox 
                             id="security" 
                             checked={filters.security} 
-                            onCheckedChange={() => handleFilterChange('security')} 
+                            onCheckedChange={() => handleFilterChange('security')}
+                            className="border-gray-600 data-[state=checked]:bg-primary data-[state=checked]:border-primary" 
                           />
-                          <label htmlFor="security" className="text-sm flex items-center cursor-pointer">
+                          <label htmlFor="security" className="text-sm flex items-center cursor-pointer text-gray-300">
                             <Shield className="h-3 w-3 mr-1" /> 24/7 Security
                           </label>
                         </div>
@@ -231,16 +236,17 @@ export default function SearchPage() {
                           <Checkbox 
                             id="allDay" 
                             checked={filters.allDay} 
-                            onCheckedChange={() => handleFilterChange('allDay')} 
+                            onCheckedChange={() => handleFilterChange('allDay')}
+                            className="border-gray-600 data-[state=checked]:bg-primary data-[state=checked]:border-primary" 
                           />
-                          <label htmlFor="allDay" className="text-sm flex items-center cursor-pointer">
+                          <label htmlFor="allDay" className="text-sm flex items-center cursor-pointer text-gray-300">
                             <Clock className="h-3 w-3 mr-1" /> 24/7 Access
                           </label>
                         </div>
                       </div>
                     </div>
                     
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white">
                       <SearchIcon className="mr-2 h-4 w-4" /> Apply Filters
                     </Button>
                   </form>
@@ -253,19 +259,19 @@ export default function SearchPage() {
               {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {[...Array(4)].map((_, index) => (
-                    <Card key={index} className="overflow-hidden">
-                      <Skeleton className="h-48 w-full" />
-                      <CardContent className="p-6 space-y-3">
-                        <Skeleton className="h-6 w-3/4" />
-                        <Skeleton className="h-4 w-1/2" />
+                    <Card key={index} className="overflow-hidden border-gray-800 bg-background">
+                      <Skeleton className="h-48 w-full bg-gray-800" />
+                      <CardContent className="p-6 space-y-3 bg-background">
+                        <Skeleton className="h-6 w-3/4 bg-gray-800" />
+                        <Skeleton className="h-4 w-1/2 bg-gray-800" />
                         <div className="flex gap-2 my-4">
-                          <Skeleton className="h-6 w-20" />
-                          <Skeleton className="h-6 w-20" />
-                          <Skeleton className="h-6 w-20" />
+                          <Skeleton className="h-6 w-20 bg-gray-800" />
+                          <Skeleton className="h-6 w-20 bg-gray-800" />
+                          <Skeleton className="h-6 w-20 bg-gray-800" />
                         </div>
                         <div className="flex justify-between items-center">
-                          <Skeleton className="h-5 w-16" />
-                          <Skeleton className="h-5 w-32" />
+                          <Skeleton className="h-5 w-16 bg-gray-800" />
+                          <Skeleton className="h-5 w-32 bg-gray-800" />
                         </div>
                       </CardContent>
                     </Card>
@@ -302,22 +308,25 @@ export default function SearchPage() {
                 </>
               ) : (
                 <div className="text-center py-10">
-                  <Car className="h-16 w-16 mx-auto text-neutral-300 mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">No parking spots found</h3>
-                  <p className="text-neutral-600 mb-6 max-w-md mx-auto">
+                  <Car className="h-16 w-16 mx-auto text-gray-500 mb-4" />
+                  <h3 className="text-xl font-semibold mb-2 text-white">No parking spots found</h3>
+                  <p className="text-gray-400 mb-6 max-w-md mx-auto">
                     We couldn't find any parking spots matching your filters. Try adjusting your search criteria.
                   </p>
-                  <Button onClick={() => {
-                    setLocation('');
-                    setPriceRange([0, 20]);
-                    setFilters({
-                      evCharging: false,
-                      covered: false,
-                      accessible: false,
-                      security: false,
-                      allDay: false
-                    });
-                  }}>
+                  <Button 
+                    onClick={() => {
+                      setLocation('');
+                      setPriceRange([0, 20]);
+                      setFilters({
+                        evCharging: false,
+                        covered: false,
+                        accessible: false,
+                        security: false,
+                        allDay: false
+                      });
+                    }}
+                    className="bg-primary hover:bg-primary/90 text-white"
+                  >
                     Reset Filters
                   </Button>
                 </div>
