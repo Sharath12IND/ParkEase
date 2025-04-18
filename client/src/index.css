@@ -48,6 +48,7 @@
     @apply font-sans antialiased bg-background text-foreground;
     background: linear-gradient(to bottom, hsl(240, 10%, 3%), hsl(240, 10%, 6%));
     min-height: 100vh;
+    color: white; /* Ensuring all text has good contrast by default */
   }
 
   h1, h2, h3, h4, h5, h6 {

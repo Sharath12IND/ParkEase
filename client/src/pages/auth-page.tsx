@@ -84,23 +84,25 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-neutral-50">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-b from-background to-background/95">
       {/* Left column: Auth form */}
       <div className="md:w-1/2 p-8 md:p-12 flex items-center justify-center">
         <div className="w-full max-w-md">
           <div className="mb-8 text-center md:text-left">
             <Link href="/" className="inline-flex items-center mb-8">
-              <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 3.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM3.5 10a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path>
-                <path d="M10 8a1 1 0 00-1 1v4a1 1 0 102 0V9a1 1 0 00-1-1z"></path>
-                <path d="M10 6a1 1 0 100 2 1 1 0 000-2z"></path>
-              </svg>
-              <span className="text-primary font-poppins font-bold text-2xl ml-2">ParkEase</span>
+              <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center neon-border">
+                <svg className="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 3.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM3.5 10a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path>
+                  <path d="M10 8a1 1 0 00-1 1v4a1 1 0 102 0V9a1 1 0 00-1-1z"></path>
+                  <path d="M10 6a1 1 0 100 2 1 1 0 000-2z"></path>
+                </svg>
+              </div>
+              <span className="neon-text font-bold text-xl tracking-tight ml-2">PARK<span className="accent-text">EASE</span></span>
             </Link>
-            <h2 className="text-2xl md:text-3xl font-bold font-poppins text-primary-900">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
               {activeTab === "login" ? "Welcome back" : "Create an account"}
             </h2>
-            <p className="text-neutral-600 mt-2">
+            <p className="text-gray-300 mt-2">
               {activeTab === "login" 
                 ? "Sign in to access your account" 
                 : "Join ParkEase to start booking premium parking spots"}
@@ -108,24 +110,28 @@ export default function AuthPage() {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-2 mb-8">
-              <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="register">Register</TabsTrigger>
+            <TabsList className="grid grid-cols-2 mb-8 bg-secondary/80 text-gray-200">
+              <TabsTrigger value="login" className="data-[state=active]:bg-primary data-[state=active]:text-white">Login</TabsTrigger>
+              <TabsTrigger value="register" className="data-[state=active]:bg-primary data-[state=active]:text-white">Register</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login">
               <Form {...loginForm}>
-                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
+                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-5">
                   <FormField
                     control={loginForm.control}
                     name="username"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Username</FormLabel>
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-white">Username</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your username" {...field} />
+                          <Input 
+                            placeholder="Enter your username" 
+                            className="bg-secondary border-gray-700 text-white" 
+                            {...field} 
+                          />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-400" />
                       </FormItem>
                     )}
                   />
@@ -133,18 +139,23 @@ export default function AuthPage() {
                     control={loginForm.control}
                     name="password"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-white">Password</FormLabel>
                         <FormControl>
-                          <Input type="password" placeholder="Enter your password" {...field} />
+                          <Input 
+                            type="password" 
+                            placeholder="Enter your password" 
+                            className="bg-secondary border-gray-700 text-white" 
+                            {...field} 
+                          />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-400" />
                       </FormItem>
                     )}
                   />
                   <Button 
                     type="submit" 
-                    className="w-full" 
+                    className="w-full mt-6 bg-primary hover:bg-primary/90 text-white font-medium" 
                     disabled={loginMutation.isPending}
                   >
                     {loginMutation.isPending ? (
@@ -155,7 +166,7 @@ export default function AuthPage() {
                   </Button>
                 </form>
               </Form>
-              <div className="mt-4 text-center text-sm text-neutral-600">
+              <div className="mt-6 text-center text-sm text-gray-400">
                 Don't have an account?{" "}
                 <button 
                   className="text-primary font-medium hover:underline" 
@@ -173,12 +184,16 @@ export default function AuthPage() {
                     control={registerForm.control}
                     name="fullName"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Full Name</FormLabel>
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-white">Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your full name" {...field} />
+                          <Input 
+                            placeholder="Enter your full name" 
+                            className="bg-secondary border-gray-700 text-white" 
+                            {...field} 
+                          />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-400" />
                       </FormItem>
                     )}
                   />
@@ -186,12 +201,17 @@ export default function AuthPage() {
                     control={registerForm.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-white">Email</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="Enter your email" {...field} />
+                          <Input 
+                            type="email" 
+                            placeholder="Enter your email" 
+                            className="bg-secondary border-gray-700 text-white" 
+                            {...field} 
+                          />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-400" />
                       </FormItem>
                     )}
                   />
@@ -200,12 +220,16 @@ export default function AuthPage() {
                       control={registerForm.control}
                       name="username"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Username</FormLabel>
+                        <FormItem className="space-y-2">
+                          <FormLabel className="text-white">Username</FormLabel>
                           <FormControl>
-                            <Input placeholder="Choose a username" {...field} />
+                            <Input 
+                              placeholder="Choose a username" 
+                              className="bg-secondary border-gray-700 text-white" 
+                              {...field} 
+                            />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-red-400" />
                         </FormItem>
                       )}
                     />
@@ -213,12 +237,17 @@ export default function AuthPage() {
                       control={registerForm.control}
                       name="password"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Password</FormLabel>
+                        <FormItem className="space-y-2">
+                          <FormLabel className="text-white">Password</FormLabel>
                           <FormControl>
-                            <Input type="password" placeholder="Create a password" {...field} />
+                            <Input 
+                              type="password" 
+                              placeholder="Create a password" 
+                              className="bg-secondary border-gray-700 text-white" 
+                              {...field} 
+                            />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-red-400" />
                         </FormItem>
                       )}
                     />
@@ -227,12 +256,16 @@ export default function AuthPage() {
                     control={registerForm.control}
                     name="phoneNumber"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone Number (Optional)</FormLabel>
+                      <FormItem className="space-y-2">
+                        <FormLabel className="text-white">Phone Number (Optional)</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your phone number" {...field} />
+                          <Input 
+                            placeholder="Enter your phone number" 
+                            className="bg-secondary border-gray-700 text-white" 
+                            {...field} 
+                          />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-400" />
                       </FormItem>
                     )}
                   />
@@ -241,7 +274,7 @@ export default function AuthPage() {
                     name="userType"
                     render={({ field }) => (
                       <FormItem className="space-y-3">
-                        <FormLabel>Account Type</FormLabel>
+                        <FormLabel className="text-white">Account Type</FormLabel>
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
@@ -250,25 +283,25 @@ export default function AuthPage() {
                           >
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="customer" id="customer" />
-                              <label htmlFor="customer" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              <label htmlFor="customer" className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                 Customer
                               </label>
                             </div>
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="vendor" id="vendor" />
-                              <label htmlFor="vendor" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              <label htmlFor="vendor" className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                 Business/Vendor
                               </label>
                             </div>
                           </RadioGroup>
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-400" />
                       </FormItem>
                     )}
                   />
                   <Button 
                     type="submit" 
-                    className="w-full" 
+                    className="w-full mt-6 bg-primary hover:bg-primary/90 text-white font-medium" 
                     disabled={registerMutation.isPending}
                   >
                     {registerMutation.isPending ? (
@@ -279,7 +312,7 @@ export default function AuthPage() {
                   </Button>
                 </form>
               </Form>
-              <div className="mt-4 text-center text-sm text-neutral-600">
+              <div className="mt-6 text-center text-sm text-gray-400">
                 Already have an account?{" "}
                 <button 
                   className="text-primary font-medium hover:underline" 
@@ -291,8 +324,8 @@ export default function AuthPage() {
             </TabsContent>
           </Tabs>
 
-          <div className="mt-6 pt-6 border-t border-neutral-200 text-center text-xs text-neutral-500">
-            By continuing, you agree to ParkEase's <a href="#" className="text-primary">Terms of Service</a> and <a href="#" className="text-primary">Privacy Policy</a>.
+          <div className="mt-6 pt-6 border-t border-gray-700 text-center text-xs text-gray-400">
+            By continuing, you agree to ParkEase's <a href="#" className="text-primary hover:text-primary/80">Terms of Service</a> and <a href="#" className="text-primary hover:text-primary/80">Privacy Policy</a>.
           </div>
         </div>
       </div>
