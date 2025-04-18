@@ -89,15 +89,13 @@ export default function AuthPage() {
       <div className="md:w-1/2 p-8 md:p-12 flex items-center justify-center">
         <div className="w-full max-w-md">
           <div className="mb-8 text-center md:text-left">
-            <Link href="/">
-              <a className="inline-flex items-center mb-8">
-                <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 3.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM3.5 10a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path>
-                  <path d="M10 8a1 1 0 00-1 1v4a1 1 0 102 0V9a1 1 0 00-1-1z"></path>
-                  <path d="M10 6a1 1 0 100 2 1 1 0 000-2z"></path>
-                </svg>
-                <span className="text-primary font-poppins font-bold text-2xl ml-2">ParkEase</span>
-              </a>
+            <Link href="/" className="inline-flex items-center mb-8">
+              <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 3.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM3.5 10a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path>
+                <path d="M10 8a1 1 0 00-1 1v4a1 1 0 102 0V9a1 1 0 00-1-1z"></path>
+                <path d="M10 6a1 1 0 100 2 1 1 0 000-2z"></path>
+              </svg>
+              <span className="text-primary font-poppins font-bold text-2xl ml-2">ParkEase</span>
             </Link>
             <h2 className="text-2xl md:text-3xl font-bold font-poppins text-primary-900">
               {activeTab === "login" ? "Welcome back" : "Create an account"}
