@@ -29,6 +29,7 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
   const [date, setDate] = useState<Date>(new Date());
   const [hours, setHours] = useState(3);
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>("");
+  const [vehicleType, setVehicleType] = useState<string>("sedan");
   
   // Get user vehicles
   const { data: vehicles, isLoading: isLoadingVehicles } = useQuery<Vehicle[]>({
@@ -213,9 +214,32 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
           </div>
         </div>
         
+        {/* Vehicle Type Selection */}
+        <div className="mb-6">
+          <label className="block text-neutral-700 font-medium mb-2">Vehicle Type</label>
+          <Select
+            value={vehicleType}
+            onValueChange={setVehicleType}
+          >
+            <SelectTrigger className="border-2 border-neutral-200 bg-white text-neutral-800">
+              <SelectValue placeholder="Select vehicle type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="sedan">🚗 Sedan</SelectItem>
+              <SelectItem value="suv">🚙 SUV</SelectItem>
+              <SelectItem value="ev">⚡ Electric Vehicle</SelectItem>
+              <SelectItem value="truck">🚚 Truck</SelectItem>
+              <SelectItem value="motorcycle">🏍️ Motorcycle</SelectItem>
+              <SelectItem value="van">🚐 Van</SelectItem>
+              <SelectItem value="luxury">✨ Luxury Car</SelectItem>
+              <SelectItem value="compact">🚗 Compact</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        
         {/* Vehicle Selection */}
         <div className="mb-6">
-          <label className="block text-neutral-700 font-medium mb-2">Vehicle</label>
+          <label className="block text-neutral-700 font-medium mb-2">Your Vehicles</label>
           {isLoadingVehicles ? (
             <div className="flex justify-center p-4">
               <Loader2 className="animate-spin h-6 w-6 text-primary" />
@@ -225,8 +249,8 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
               value={selectedVehicleId}
               onValueChange={setSelectedVehicleId}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a vehicle" />
+              <SelectTrigger className="border-2 border-neutral-200 bg-white text-neutral-800">
+                <SelectValue placeholder="Select your registered vehicle" />
               </SelectTrigger>
               <SelectContent>
                 {vehicles?.map((vehicle) => (
@@ -234,7 +258,7 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
                     {vehicle.make} {vehicle.model} ({vehicle.licensePlate})
                   </SelectItem>
                 ))}
-                <SelectItem value="add_new">Add New Vehicle</SelectItem>
+                <SelectItem value="add_new">+ Add New Vehicle</SelectItem>
               </SelectContent>
             </Select>
           )}
@@ -262,47 +286,52 @@ export default function BookingForm({ facility, selectedSlot, onChangeSlot }: Bo
         
         {/* Price Breakdown */}
         <div className="mb-6">
-          <h4 className="font-medium text-neutral-700 mb-3">Price Details</h4>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-neutral-600">Base rate ({hours} hours)</span>
-              <span>${basePrice.toFixed(2)}</span>
-            </div>
-            {evFee > 0 && (
-              <div className="flex justify-between">
-                <span className="text-neutral-600">EV Charging Access</span>
-                <span>${evFee.toFixed(2)}</span>
+          <h4 className="font-semibold text-black text-lg mb-3">Price Details</h4>
+          <div className="border-2 border-primary/30 rounded-lg bg-primary/5 p-4">
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-black font-medium">Base rate ({hours} hours)</span>
+                <span className="text-black font-semibold text-base">${basePrice.toFixed(2)}</span>
               </div>
-            )}
-            <div className="flex justify-between">
-              <span className="text-neutral-600">Service fee</span>
-              <span>${serviceFee.toFixed(2)}</span>
-            </div>
-            <div className="separator my-2"></div>
-            <div className="flex justify-between font-medium text-base">
-              <span>Total</span>
-              <span>${totalPrice.toFixed(2)}</span>
+              {evFee > 0 && (
+                <div className="flex justify-between items-center">
+                  <span className="text-black font-medium">EV Charging Access</span>
+                  <span className="text-black font-semibold text-base">${evFee.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="flex justify-between items-center">
+                <span className="text-black font-medium">Service fee</span>
+                <span className="text-black font-semibold text-base">${serviceFee.toFixed(2)}</span>
+              </div>
+              <div className="border-t-2 border-primary/20 my-2 pt-2"></div>
+              <div className="flex justify-between items-center">
+                <span className="text-black font-bold text-lg">Total</span>
+                <span className="text-primary font-bold text-xl">${totalPrice.toFixed(2)}</span>
+              </div>
             </div>
           </div>
         </div>
         
         {/* Booking Button */}
         <Button 
-          className="w-full" 
+          className="w-full bg-primary hover:bg-primary/90 text-white font-bold text-lg py-6 mt-4 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all transform hover:scale-[1.02]" 
           onClick={handleBooking}
           disabled={!selectedSlot || !selectedVehicleId || bookingMutation.isPending}
+          size="lg"
         >
           {bookingMutation.isPending ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Processing...
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              Processing Your Booking...
             </>
           ) : (
-            "Book Now"
+            <>
+              Book Now for ${totalPrice.toFixed(2)}
+            </>
           )}
         </Button>
         
-        <div className="text-center text-sm text-neutral-500 mt-4">
+        <div className="text-center text-sm font-medium text-neutral-600 mt-4 bg-neutral-100 p-3 rounded-lg border border-neutral-200">
           <p>You won't be charged until you confirm this booking</p>
         </div>
       </CardContent>
