@@ -4,6 +4,27 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Car, Bolt, Shield, Umbrella, Accessibility, MapPin, Star, ArrowRight } from "lucide-react";
 
+// Import parking location images
+import parking1 from "@assets/parking-images/parking1.jpg";
+import parking2 from "@assets/parking-images/parking2.jpg";
+import parking3 from "@assets/parking-images/parking3.jpg";
+import parking4 from "@assets/parking-images/parking4.jpg";
+import parking5 from "@assets/parking-images/parking5.jpg";
+
+// Map of facility IDs to their respective images
+const facilityImages: Record<number, string> = {
+  1: parking1,
+  2: parking2,
+  3: parking3,
+  4: parking4,
+  5: parking5
+};
+
+// Get image for facility or use a default if not found
+const getFacilityImage = (id: number): string => {
+  return facilityImages[id] || parking3; // Use parking3 as default
+};
+
 interface LocationCardProps {
   facility: ParkingFacility;
 }
@@ -13,26 +34,12 @@ export default function LocationCard({ facility }: LocationCardProps) {
     <Link href={`/location/${facility.id}`}>
       <Card className="rounded-lg overflow-hidden border border-gray-800 bg-background h-full transition-all duration-300 hover:transform hover:-translate-y-1 cursor-pointer">
         <div className="relative h-48 overflow-hidden">
-          {/* Using specific images based on ID to ensure we have proper images */}
-          {facility.id === 1 ? (
-            <img 
-              src="https://images.unsplash.com/photo-1621928372414-30e144d111a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
-              alt="City Center Mall Parking"
-              className="w-full h-full object-cover"
-            />
-          ) : facility.id === 2 ? (
-            <img 
-              src="https://images.unsplash.com/photo-1573979349335-71f8e18239b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
-              alt="Westfield Shopping Center"
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <img 
-              src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-              alt={facility.name}
-              className="w-full h-full object-cover"
-            />
-          )}
+          {/* Using local images from assets folder */}
+          <img 
+            src={getFacilityImage(facility.id)}
+            alt={facility.name}
+            className="w-full h-full object-cover"
+          />
           
           {(facility.rating ?? 0) >= 4.5 && (
             <div className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-md">

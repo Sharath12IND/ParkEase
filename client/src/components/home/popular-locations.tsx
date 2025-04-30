@@ -6,17 +6,25 @@ import LocationCard from "@/components/search/location-card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
+// Import parking location images
+import parking1 from "@assets/parking-images/parking1.jpg";
+import parking2 from "@assets/parking-images/parking2.jpg";
+import parking3 from "@assets/parking-images/parking3.jpg";
+import parking4 from "@assets/parking-images/parking4.jpg";
+import parking5 from "@assets/parking-images/parking5.jpg";
+
+// Use local image assets for mall images
 const MALL_IMAGES = [
-  "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1589793907316-f94025b46850?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1621928372414-30e144d111a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1573348722427-f1d6819fdf98?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1590674899484-8e1d2a97781a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1573167947320-852f42bb68a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1598667363811-89c3d31c6e74?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+  parking3, // Default
+  parking1,
+  parking2,
+  parking4,
+  parking5,
+  parking1,
+  parking2,
+  parking3,
+  parking4,
+  parking5,
 ];
 
 // Sample extended facility data
